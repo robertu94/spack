@@ -320,9 +320,14 @@ def _createtarball(env, spec_yaml, packages, directory, key, no_deps, force,
     pkgs = set(packages)
     specs = set()
 
-    outdir = '.'
+    outdir = os.getcwd()
     if directory:
         outdir = directory
+    msg = 'Buildcache files will be output to %s/build_cache' % outdir
+    tty.msg(msg)
+    msg = 'Use -d to specify an output directory other than the current'
+    msg += ' working directory.\n'
+    tty.msg(msg)
 
     mirror = spack.mirror.MirrorCollection().lookup(outdir)
     outdir = url_util.format(mirror.push_url)
@@ -356,8 +361,6 @@ def _createtarball(env, spec_yaml, packages, directory, key, no_deps, force,
                 else:
                     tty.debug('adding dependency %s' % node.format())
                     specs.add(node)
-
-    tty.debug('writing tarballs to %s/build_cache' % outdir)
 
     for spec in specs:
         tty.msg('creating binary cache file for package %s ' % spec.format())
