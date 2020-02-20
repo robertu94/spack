@@ -320,17 +320,18 @@ def _createtarball(env, spec_yaml, packages, directory, key, no_deps, force,
     pkgs = set(packages)
     specs = set()
 
-    outdir = os.getcwd()
+    outdir = '.'
     if directory:
         outdir = directory
+
+    mirror = spack.mirror.MirrorCollection().lookup(outdir)
+    outdir = url_util.format(mirror.push_url)
+
     msg = 'Buildcache files will be output to %s/build_cache' % outdir
     tty.msg(msg)
     msg = 'Use -d to specify an output directory other than the current'
     msg += ' working directory.\n'
     tty.msg(msg)
-
-    mirror = spack.mirror.MirrorCollection().lookup(outdir)
-    outdir = url_util.format(mirror.push_url)
 
     signkey = None
     if key:
