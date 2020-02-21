@@ -329,17 +329,10 @@ def _createtarball(env, spec_yaml, packages, directory, key, no_deps, force,
         outdir = directory
 
     mirror = spack.mirror.MirrorCollection().lookup(outdir)
-    if mirror:
-        outdir = url_util.format(mirror.push_url)
-    else:
-        msg = 'Please add a mirror for buildcache files to be written to.\n'
-        msg += 'Use \nspack mirror add local file://$PWD\n'
-        msg += 'to use the current directory.'
-        tty.die(msg)
+    outdir = url_util.format(mirror.push_url)
 
     msg = 'Buildcache files will be output to %s/build_cache' % outdir
     tty.msg(msg)
-
 
     signkey = None
     if key:
