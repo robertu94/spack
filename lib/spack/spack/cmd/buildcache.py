@@ -53,7 +53,7 @@ def setup_parser(subparser):
                         type=str, default=None,
                         help="Key for signing.")
     create.add_argument('-d', '--directory', metavar='directory',
-                        type=str, default='.',
+                        type=str, default=None,
                         help="directory in which to save the tarballs.")
     create.add_argument('--no-rebuild-index', action='store_true',
                         default=False, help="skip rebuilding index after " +
@@ -320,18 +320,26 @@ def _createtarball(env, spec_yaml, packages, directory, key, no_deps, force,
     pkgs = set(packages)
     specs = set()
 
-    outdir = '.'
-    if directory:
+    if not directory:
+        msg = 'Specify directory name or mirror name for outputing buildcaches'
+        msg += ' to with -d option. Use \n'
+        msg += 'spack buildache create -d <dir name|mirror name> ...'
+        tty.die(msg)
+    else:
         outdir = directory
 
     mirror = spack.mirror.MirrorCollection().lookup(outdir)
-    outdir = url_util.format(mirror.push_url)
+    if mirror:
+        outdir = url_util.format(mirror.push_url)
+    else:
+        msg = 'Please add a mirror for buildcache files to be written to.\n'
+        msg += 'Use \nspack mirror add local file://$PWD\n'
+        msg += 'to use the current directory.'
+        tty.die(msg)
 
     msg = 'Buildcache files will be output to %s/build_cache' % outdir
     tty.msg(msg)
-    msg = 'Use -d to specify an output directory other than the current'
-    msg += ' working directory.\n'
-    tty.msg(msg)
+
 
     signkey = None
     if key:
