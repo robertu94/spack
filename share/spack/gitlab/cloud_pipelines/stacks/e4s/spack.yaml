@@ -103,6 +103,8 @@ spack:
   - lammps
   - legion
   - libnrm
+  - libpressio +bitgrooming +bzip2 ~cuda ~cusz +fpzip +hdf5 +libdistributed 
+    +lua +openmp +python +sz +sz3 +unix +zfp +json +remote +netcdf +mgard
   - libquo
   - libunwind
   - mercury
@@ -180,6 +182,9 @@ spack:
   - hypre +cuda
   - kokkos +wrapper +cuda
   - kokkos-kernels +cuda ^kokkos +wrapper +cuda
+  - libpressio +bitgrooming +bzip2 +fpzip +hdf5 +libdistributed +lua 
+    +openmp +python +sz +sz3 +unix +zfp +json +remote +netcdf +cusz 
+    +mgard +cuda ^cusz +cuda
   - magma +cuda
   - mfem +cuda
   - omega-h +cuda
