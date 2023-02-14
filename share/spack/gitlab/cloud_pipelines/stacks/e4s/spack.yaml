@@ -275,14 +275,6 @@ spack:
 
     match_behavior: first
     mappings:
-
-      - match:
-        - libpressio +cusz +cuda
-        runner-attributes:
-          tags: [ "nvidia-525.85.12", "a100" ]
-          variables:
-            CI_JOB_SIZE: large
-
       - match:
           - hipblas
           - llvm
